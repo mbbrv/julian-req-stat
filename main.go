@@ -6,6 +6,7 @@ import (
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
 	"io"
+	"julian-req-stat/config"
 	dbjulian "julian-req-stat/db"
 	"julian-req-stat/helper"
 	"log"
@@ -27,7 +28,7 @@ type MarplaResponse struct {
 }
 
 func main() {
-	db, err := sqlx.Connect("postgres", "host=127.0.0.1 user=postgres dbname=julian sslmode=disable")
+	db, err := sqlx.Connect("postgres", config.DBConnection)
 	if err != nil {
 		log.Fatalln(err)
 	}
