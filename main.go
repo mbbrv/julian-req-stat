@@ -143,7 +143,6 @@ func process(db *sqlx.DB) {
 					checkArticleId := strconv.FormatInt(article.ID, 10)
 
 					if ok := requestsStat[checkArticleId+checkDateTime+record.Search]; ok {
-						log.Println("exists")
 						continue
 					}
 
@@ -160,8 +159,8 @@ func process(db *sqlx.DB) {
 						FrequencyWB: record.PopularWB,
 						SearchPlace: searchPlace,
 						Date:        dateTime,
-						CreatedAt:   dateTime,
-						UpdatedAt:   dateTime,
+						CreatedAt:   time.Now(),
+						UpdatedAt:   time.Now(),
 					})
 				}
 			}
@@ -169,10 +168,18 @@ func process(db *sqlx.DB) {
 	}
 	wg.Wait()
 
-	_, err = dbjulian.InsertRequestStat(db, res)
-	if err != nil {
-		log.Println(err)
-		return
+	portions := len(res) / 6553
+	start := 0
+
+	for i := 1; i <= portions; i++ {
+		_, err = dbjulian.InsertRequestStat(db, res[start:6552*i])
+		if err != nil {
+			log.Println(err)
+			return
+		}
+
+		start = 6552*i + 1
 	}
+
 	log.Println("ended process")
 }
