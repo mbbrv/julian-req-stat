@@ -42,9 +42,9 @@ func main() {
 			// Execute the method
 			process(db)
 
-			// Wait for 30 minutes before executing the method again
+			// Wait for 24 hours before executing the method again
 			select {
-			case <-time.After(30 * time.Minute):
+			case <-time.After(24 * time.Hour):
 			case <-stopChan:
 				return
 			}

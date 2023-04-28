@@ -1,3 +1,3 @@
 package config
 
-var DBConnection = "host=127.0.0.1 user=postgres dbname=julian sslmode=disable"
+var DBConnection = "host=localhost user=postgres password=password dbname=julian sslmode=disable"
